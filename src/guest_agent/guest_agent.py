@@ -1,6 +1,7 @@
 import os
 import platform
 
+
 class GuestAgent:
     def __init__(self):
         '''
@@ -25,21 +26,26 @@ class GuestAgent:
         elif command == "create-user":
             if 'create-home' in arguments:
                 if 'groups' in arguments:
-                    ret = self.create_user(arguments['username'], groups=arguments['groups'], create_home=arguments['create-home'])
+                    ret = self.create_user(arguments['username'],
+                                           groups=arguments['groups'],
+                                           create_home=arguments['create-home']) # noqa E501
                 else:
-                    ret = self.create_user(arguments['username'], create_home=arguments['create-home'])
+                    ret = self.create_user(arguments['username'],
+                                           create_home=arguments['create-home']) # noqa E501
             elif 'groups' in arguments:
-                ret = self.create_user(arguments['username'], groups=arguments['groups'])
+                ret = self.create_user(arguments['username'],
+                                       groups=arguments['groups'])
             else:
                 ret = self.create_user(arguments['username'])
 
         elif command == "get-osinfo":
             ret = self.get_osinfo()
         elif command == "deploy-ssh-pubkey":
-            ret = self.deploy_ssh_pubkey(arguments["username"], arguments["ssh-key"])
+            ret = self.deploy_ssh_pubkey(arguments["username"],
+                                         arguments["ssh-key"])
         else:
             raise Exception("Command {} not recognized".format(command))
-        
+
         return {'return': ret}
 
     def guest_sync(self, num):
@@ -65,11 +71,11 @@ class GuestAgent:
                 groups_in = "--groups " + ",".join(groups) + " "
             elif isinstance(groups, str):
                 groups_in = "--groups {} ".format(groups)
-                
+
         cmd = "useradd {}{}{}".format(home, groups_in, username)
         os.system(cmd)
         return ret_val
-    
+
     def get_osinfo(self):
         '''
         gets info about the os on which the guest is running.
