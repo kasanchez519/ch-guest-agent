@@ -24,9 +24,7 @@ jobs:
       - name: pip
         run: |
           sudo pip3 install qmp pytest mock
-      - name: pytest
-        run: |
-          python3 -m pytest -vvv test
+      - run: pytest -vvv test
       - run: pytest -vvv misc
       - name: flake8 src
         run: |
